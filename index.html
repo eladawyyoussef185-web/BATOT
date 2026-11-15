@@ -7,11 +7,13 @@
     <!-- الخطوط والأيقونات -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة توليد الباركود -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     
     <style>
         /* =========================================================
-           1. المتغيرات والتنسيقات الأساسية (CSS Variables & Resets)
-           ========================================================= */
+            1. المتغيرات والتنسيقات الأساسية (CSS Variables & Resets)
+            ========================================================= */
         :root {
             --primary-dark: #090d16;
             --secondary-dark: #111827;
@@ -71,8 +73,8 @@
         }
 
         /* =========================================================
-           2. شاشة الباسورد المقسمة (Split Lock Screen)
-           ========================================================= */
+            2. شاشة الباسورد المقسمة (Split Lock Screen)
+            ========================================================= */
         #lock-screen {
             width: 100%;
             max-width: 820px;
@@ -190,8 +192,8 @@
         }
 
         /* =========================================================
-           3. الأزرار والتأثيرات التفاعلية (Buttons & Animations)
-           ========================================================= */
+            3. الأزرار والتأثيرات التفاعلية (Buttons & Animations)
+            ========================================================= */
         .btn-action {
             background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
             color: #ffffff;
@@ -261,8 +263,8 @@
         }
 
         /* =========================================================
-           4. محتوى الصفحات والمجموعات (Main Pages Layout)
-           ========================================================= */
+            4. محتوى الصفحات والمجموعات (Main Pages Layout)
+            ========================================================= */
         .page-container {
             display: none;
             width: 100%;
@@ -292,8 +294,8 @@
         }
 
         /* =========================================================
-           5. كارت الصورة والرسالة (Interactive Photo & Message Card)
-           ========================================================= */
+            5. كارت الصورة والرسالة (Interactive Photo & Message Card)
+            ========================================================= */
         .photo-card {
             width: 100%;
             background: var(--card-bg-light);
@@ -387,8 +389,8 @@
         }
 
         /* =========================================================
-           6. معرض الصور المتحرك للـ Next (Dynamic Image Gallery)
-           ========================================================= */
+            6. معرض الصور المتحرك للـ Next (Dynamic Image Gallery)
+            ========================================================= */
         .gallery-card {
             width: 100%;
             background: var(--card-bg-light);
@@ -422,7 +424,6 @@
             transform: scale(1) rotate(0deg);
         }
 
-        /* التأثير الفخم عند النقر والتنقل بين الصور */
         .gallery-frame img.effect-hide {
             opacity: 0;
             transform: scale(0.9) rotate(-2deg);
@@ -466,8 +467,49 @@
         }
 
         /* =========================================================
-           7. التذييل (Footer)
-           ========================================================= */
+            7. قسم الباركود (QR Code Section)
+            ========================================================= */
+        .qrcode-card {
+            width: 100%;
+            background: var(--card-bg-light);
+            padding: 25px;
+            border-radius: var(--radius-large);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+            text-align: center;
+            border: 1px solid var(--border-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qrcode-card h3 {
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+
+        #qrcode {
+            background: #fff;
+            padding: 15px;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+
+        #qrcode img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .qrcode-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* =========================================================
+            8. التذييل (Footer)
+            ========================================================= */
         footer {
             margin-top: 35px;
             text-align: center;
@@ -490,8 +532,8 @@
         }
 
         /* =========================================================
-           8. الرسومات والانيميشن التفصيلية (Keyframes)
-           ========================================================= */
+            9. الرسومات والانيميشن التفصيلية (Keyframes)
+            ========================================================= */
         @keyframes lockScreenAppear {
             from { opacity: 0; transform: scale(0.88) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -606,7 +648,7 @@
 
             <div class="gallery-card">
                 <div class="gallery-frame">
-                    <img id="gallery-img" src="b1.jpg" alt="Judy Gallery" onerror="this.src='https://via.placeholder.com/600x400?text=Upload+b2.jpg+b3.jpg...'">
+                    <img id="gallery-img" src="b1.jpg" alt="Fatma Gallery" onerror="this.src='https://via.placeholder.com/600x400?text=Upload+Images'">
                 </div>
                 
                 <div class="gallery-controls">
@@ -614,7 +656,7 @@
                         <i class="fas fa-chevron-right"></i> back
                     </button>
                     
-                    <span id="img-counter" class="counter-badge">1 / 20</span>
+                    <span id="img-counter" class="counter-badge">1 / 5</span>
                     
                     <button class="nav-btn" onclick="changeImage(1)">
                         next <i class="fas fa-chevron-left"></i>
@@ -622,9 +664,16 @@
                 </div>
             </div>
 
+            <!-- قسم الباركود الجديد -->
+            <div class="qrcode-card">
+                <h3>Scan QR Code 📱</h3>
+                <div id="qrcode"></div>
+                <p>امسح الكود لفتح الموقع أو مشاركته مع فاطمة!</p>
+            </div>
+
             <button class="btn-action" onclick="backToMessage()" style="width: auto; padding: 12px 32px; background: #475569; margin: 0 auto; box-shadow: none;">
                 <i class="fas fa-undo"></i>
-                <span>back to message</span>ا</span>
+                <span>back to message</span>
             </button>
         </div>
 
@@ -639,12 +688,25 @@
          4. السكربتات البرمجية والتحكم (JavaScript Logic)
          ========================================================= -->
     <script>
-        /* قائمة الصور المجهزة (تمتد حتى 20 صورة b1.jpg إلى b20.jpg) */
+        /* قائمة الصور المجهزة */
         const images = [
             "b1.jpg", "b2.jpg", "b3.jpg", "b4.jpg", "b5.jpg"
         ];
         
         let currentImgIndex = 0;
+
+        /* توليد الباركود تلقائياً عند تحميل الصفحة (يأخذ رابط الويب الحالي) */
+        window.onload = function() {
+            const currentUrl = window.location.href;
+            new QRCode(document.getElementById("qrcode"), {
+                text: currentUrl,
+                width: 140,
+                height: 140,
+                colorDark: "#090d16",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        };
 
         /* التحقق من كلمة المرور */
         function checkPassword() {
